@@ -4,3 +4,5 @@ dist
 .parcel-cache
 .vscode
 *.swp
+*.db
+*.env

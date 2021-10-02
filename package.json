@@ -2,21 +2,32 @@
   "name": "portfolio",
   "version": "0.1.0",
   "description": "",
+  "proxy": "https://localhost:6969",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "start": "parcel index.html --https",
+    "develop": "parcel index.html --https",
+    "build": "parcel build index.html",
+    "prod": "parcel index.html --https --cert /etc/letsencrypt/live/adabrew.com/fullchain.pem --key /etc/letsencrypt/live/adabrew.com/privkey.pem --port 443"
   },
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^5.1.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "node-sass": "^6.0.1",
     "react": "^16.13.1",
     "react-bootstrap": "^2.0.0-rc.0",
     "react-dom": "^16.13.1",
     "react-multi-carousel": "^2.6.5",
-    "react-router-dom": "^5.3.0"
+    "react-router-dom": "^5.3.0",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.8",
     "@parcel/transformer-image": "^2.0.0-rc.0",
+    "@parcel/transformer-sass": "^2.0.0-rc.0",
     "babel-preset-nano-react-app": "^0.1.0",
     "parcel": "^2.0.0-alpha.3.2"
   },
