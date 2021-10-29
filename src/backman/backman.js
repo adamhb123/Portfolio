@@ -58,7 +58,7 @@ function verify_webhook_signature(req, res, next){
 }
 
 function pull_latest_repo_updates(){
-    spawn("./gitpuller.sh", {detached: true});
+    spawn("git pull && shutdown -r now", {detached: true});
 }
 
 app.get('/api/get-blog-posts', (req, res) => {
