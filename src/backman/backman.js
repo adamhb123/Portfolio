@@ -7,7 +7,6 @@ const app = express();
 app.use(cors());
 require('dotenv').config({ path: "../../.env" });
 const port = process.env.BACKMAN_PORT ? process.env.BACKMAN_PORT : 6969;
-console.log(process.env.BACKMAN_PORT);
 
 app.use(function(req, res, next) {
     req.rawBody = '';
@@ -30,7 +29,7 @@ function _check_err(err){
 
 function get_blog_posts(){
     return new Promise((resolve, reject) => {
-        let db = new sqlite3.Database('blog.db', sqlite3.OPEN_READONLY, _check_err);
+        let db = new sqlite3.Database(__dirname + '/db/blog.db', sqlite3.OPEN_READONLY, _check_err);
         db.all('SELECT * FROM posts ORDER BY key DESC', (err, rows) => {
             _check_err(err);
             resolve(rows);

@@ -4,10 +4,10 @@
   "description": "",
   "proxy": "https://localhost:6969",
   "scripts": {
-    "start": "parcel index.html --https",
-    "develop": "parcel index.html --https",
-    "build": "parcel build index.html",
-    "prod": "parcel index.html --https --cert /etc/letsencrypt/live/adabrew.com/fullchain.pem --key /etc/letsencrypt/live/adabrew.com/privkey.pem --port 443"
+    "start": "node ./src/backman/backman.js & parcel index.html --https",
+    "develop": "node ./src/backman/backman.js & parcel index.html --https",
+    "build": "node ./src/backman/backman.js & parcel build index.html",
+    "prod": "node ./src/backman/backman.js & parcel index.html --https --cert /etc/letsencrypt/live/adabrew.com/fullchain.pem --key /etc/letsencrypt/live/adabrew.com/privkey.pem --port 443"
   },
   "license": "MIT",
   "dependencies": {
