@@ -1,3 +1,4 @@
 # Fill these out and then change this file name from .envtemplate to .env to configure the program
+# None of these are actually needed, especially for development, but for prod they should be configured
 BACKMAN_PORT=""
 PUSHUP_SECRET=""
