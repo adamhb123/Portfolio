@@ -2,7 +2,7 @@ const sqlite3 = require("sqlite3").verbose();
 const express = require('express');
 const crypto = require('crypto');
 const cors = require('cors');
-const spawn = require('child_process').spawn;
+const exec = require('child_process').exec;
 const app = express();
 app.use(cors());
 require('dotenv').config({ path: "../../.env" });
@@ -57,7 +57,7 @@ function verify_webhook_signature(req, res, next){
 }
 
 function pull_latest_repo_updates(){
-    spawn("git pull && shutdown -r now", {detached: true});
+    exec("git pull && shutdown -r now", {detached: true});
 }
 
 app.get('/api/get-blog-posts', (req, res) => {
