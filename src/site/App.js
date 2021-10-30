@@ -131,7 +131,7 @@ function Projects() {
 					<ProjectCard title="FoodVibes" href="https://github.com/adamhb123/food-vibes-plus" image={require('url:./images/projects/foodvibes.png')}>
 						Food vibes takes an audio file and gives you food recommendations based on your 'vibes'/song. 
 					</ProjectCard>
-					<ProjectCard title="Smal.me" href="https://github.com/adamhb123/Smal.me" image={require('url:./images/projects/foodvibes.png')}>
+					<ProjectCard title="Smal.me" href="https://github.com/adamhb123/Smal.me" image={require('url:./images/projects/smalme.png')}>
 						A simple link shortener, my first foray into PHP.
 					</ProjectCard>
 				</div>
@@ -162,9 +162,9 @@ class Blog extends React.Component {
 			let bodyTextSplit = post.text.split('\n');
 			let bodyTextNodes = [];
 			for(let j = 0; j < bodyTextSplit.length; j++){
-				bodyTextNodes.push(<BlogParagraph>{bodyTextSplit[j]}</BlogParagraph>);
+				bodyTextNodes.push(<BlogParagraph key={j}>{bodyTextSplit[j]}</BlogParagraph>);
 			}
-			posts.push(<BlogPost number={post.key} title={post.title} date={post.date}>{bodyTextNodes}</BlogPost>);
+			posts.push(<BlogPost number={post.key} title={post.title} date={post.date} key={i}>{bodyTextNodes}</BlogPost>);
 		}
 		let navbar = this.props.hideNavbar ? null : <TopNav selected="Blog"/>;
 		return (

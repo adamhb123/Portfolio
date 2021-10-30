@@ -40,7 +40,7 @@ function get_blog_posts(){
 }
 
 function verify_webhook_signature(req, res, next){
-    if (!req.rawBody) {
+    if (!req.rawBody){
         return next('Request body empty');
     }
     console.log("Received pushup");
