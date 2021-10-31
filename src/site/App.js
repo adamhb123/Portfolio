@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 
 const EXPLOSION_ANIMATION_SIZE = 50;
-const SITE_NAME = process.env.NODE_ENV == "production" ? "https://adabrew.com" : "https://localhost"
+
 const PageHeader = (props) => <h1 className="page-descriptor-header">{props.children}</h1>
 
 function TopNav(props) {
@@ -144,7 +144,7 @@ class Blog extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {posts: []};
-		fetch(`${SITE_NAME}:6969/api/get-blog-posts`, {mode: 'cors'}).then(res => {
+		fetch("http://localhost:6969/api/get-blog-posts", {mode: 'cors'}).then(res => {
 			res.json().then(
 				data => this.setState({
 					posts: data.posts

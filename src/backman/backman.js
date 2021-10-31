@@ -1,16 +1,13 @@
-const fs = require('fs');
-const crypto = require('crypto');
-const exec = require('child_process').exec;
-const express = require('express');
-const cors = require('cors');
-const https = require('https');
 const sqlite3 = require("sqlite3").verbose();
+const express = require('express');
+const crypto = require('crypto');
+const cors = require('cors');
+const exec = require('child_process').exec;
 const app = express();
-require('dotenv').config({ path: "../../.env" });
-
-const port = process.env.BACKMAN_PORT ? process.env.BACKMAN_PORT : 6969;
 app.use(cors());
-app.use(express.static(__dirname + "/static", {dotfiles: 'allow'}));
+require('dotenv').config({ path: "../../.env" });
+const port = process.env.BACKMAN_PORT ? process.env.BACKMAN_PORT : 6969;
+
 app.use(function(req, res, next) {
     req.rawBody = '';
     req.setEncoding('utf8');
@@ -32,9 +29,7 @@ function _check_err(err){
 
 function get_blog_posts(){
     return new Promise((resolve, reject) => {
-	let dbName = __dirname + '/db/blog.db';
-	console.log("DB Name: " + dbName);
-        let db = new sqlite3.Database(dbName, sqlite3.OPEN_READONLY, _check_err);
+        let db = new sqlite3.Database(__dirname + '/db/blog.db', sqlite3.OPEN_READONLY, _check_err);
         db.all('SELECT * FROM posts ORDER BY key DESC', (err, rows) => {
             _check_err(err);
             resolve(rows);
@@ -81,13 +76,7 @@ if(process.env.PUSHUP_SECRET){
     })
 }
 
-https.createServer(
-	{
-		key: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/privkey.pem'),
-		cert: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/cert.pem'),
-		ca: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/chain.pem')
-	},
-	app
-).listen(port, () => {
+  
+app.listen(port, () => {
     console.log(`Backman on port ${port}`);
 });
