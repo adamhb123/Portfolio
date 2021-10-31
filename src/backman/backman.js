@@ -7,8 +7,8 @@ const https = require('https');
 const sqlite3 = require("sqlite3").verbose();
 const app = express();
 require('dotenv').config({ path: "../../.env" });
-
 const port = process.env.BACKMAN_PORT ? process.env.BACKMAN_PORT : 6969;
+
 app.use(cors());
 app.use(express.static(__dirname + "/static", {dotfiles: 'allow'}));
 app.use(function(req, res, next) {
@@ -80,14 +80,19 @@ if(process.env.PUSHUP_SECRET){
         res.status(403).send('Request body was not signed or verification failed');
     })
 }
-
-https.createServer(
-	{
-		key: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/privkey.pem'),
-		cert: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/cert.pem'),
-		ca: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/chain.pem')
-	},
-	app
-).listen(port, () => {
-    console.log(`Backman on port ${port}`);
-});
+if(process.env.NODE_ENV == "production"){
+    https.createServer(
+    {
+	key: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/privkey.pem'),
+	cert: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/cert.pem'),
+	ca: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/chain.pem')
+    },
+    app).listen(port, () => {
+        console.log(`Backman on port ${port}`);
+    });
+}
+else {
+    app.listen(port, () => {
+        console.log(`Backman on port ${port}`);    	
+    });
+}
