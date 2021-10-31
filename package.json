@@ -2,17 +2,19 @@
   "name": "portfolio",
   "version": "0.1.0",
   "description": "",
-  "proxy": "https://localhost:6969",
+  "proxy": "http://localhost:6969",
   "scripts": {
-    "start": "node ./src/backman/backman.js & parcel index.html --https",
-    "develop": "node ./src/backman/backman.js & parcel index.html --https",
-    "build": "node ./src/backman/backman.js & parcel build index.html",
-    "prod": "node ./src/backman/backman.js & parcel index.html --https --cert /etc/letsencrypt/live/adabrew.com/fullchain.pem --key /etc/letsencrypt/live/adabrew.com/privkey.pem --port 443"
+    "start": "npm run develop",
+    "backend": "node ./src/backman/backman.js",
+    "develop": "cross-env NODE_ENV=development npm run backend & parcel index.html --https",
+    "prod": "cross-env NODE_ENV=production npm run backend & parcel index.html --https --cert /etc/letsencrypt/live/adabrew.com/fullchain.pem --key /etc/letsencrypt/live/adabrew.com/privkey.pem --port 443",
+    "build": "parcel build index.html"
   },
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^5.1.1",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "crypto": "^1.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
