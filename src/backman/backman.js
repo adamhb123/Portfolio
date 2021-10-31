@@ -92,7 +92,12 @@ if(process.env.NODE_ENV == "production"){
     });
 }
 else {
-    app.listen(port, () => {
-        console.log(`Backman on port ${port}`);    	
-    });
+    https.createServer(
+    {
+	key: fs.readFileSync(`${__dirname}/devkey.key`),
+	cert: fs.readFileSync(`${__dirname}/devcert.cert`)
+    },
+    app).listen(port, () => {
+        console.log(`Backman on port ${port}`);
+    });   
 }
