@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 
 const EXPLOSION_ANIMATION_SIZE = 50;
-const SITE_NAME = process.env.NODE_ENV == "production" ? "https://adabrew.com" : "https://localhost"
+const SITE_NAME = process.env.NODE_ENV == "production" ? "https://adabrew.com" : "http://localhost"
 const PageHeader = (props) => <h1 className="page-descriptor-header">{props.children}</h1>
 
 function TopNav(props) {
