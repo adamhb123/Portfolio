@@ -1,3 +1,3 @@
 # Fill these out and then clone this file to .env to configure the program
-BACKMAN_PORT=""
+REACT_APP_BACKMAN_PORT=""
 PUSHUP_SECRET=""

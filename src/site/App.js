@@ -7,6 +7,9 @@ import './App.scss';
 
 const EXPLOSION_ANIMATION_SIZE = 50;
 const SITE_NAME = process.env.NODE_ENV == "production" ? "https://adabrew.com" : "http://localhost"
+const BACKMAN_PORT = process.env.REACT_APP_BACKMAN_PORT;
+console.log("SITE_NAME: " + SITE_NAME);
+console.log("BACKMAN_PORT: " + BACKMAN_PORT);
 const PageHeader = (props) => <h1 className="page-descriptor-header">{props.children}</h1>
 
 function TopNav(props) {
@@ -38,7 +41,7 @@ function TopNav(props) {
 					</Navbar.Collapse>
 				</Nav>
 			</Container>
-		</Navbar> 
+		</Navbar>
 	);
 }
 
@@ -101,7 +104,6 @@ function Home() {
 	return (
 		<>
 			<TopNav selected="Home"/>
-			<img src={require("url:./images/under_construction.gif")} style={{"width": "100%"}}></img>
 			<Blog hideNavbar maxPosts={1}/>
 		</>
 	);
@@ -122,14 +124,14 @@ function Projects() {
 						A web front-end for NuInfoSys that enables users to interact with an Alpha® sign through an intuitive graphical interface.
 					</ProjectCard>
 					<ProjectCard title="OpenGuessr" href="https://github.com/adamhb123/openguessr" image={require('url:./images/projects/openguessr.png')} highlight>
-						Similar to GeoGuessr, OpenGuessr is a guessing game where you are dropped at a random location in a map of your choosing 
+						Similar to GeoGuessr, OpenGuessr is a guessing game where you are dropped at a random location in a map of your choosing
 						and have to guess where you are located.
 					</ProjectCard>
 					<ProjectCard title="Portfolio Site" href="#" image={require('url:./images/projects/portfolio.png')}>
 						You're on it. Utilized ReactJS, Parcel, NodeJS, HTML/CSS/JS, etc... to make it.
 					</ProjectCard>
 					<ProjectCard title="FoodVibes" href="https://github.com/adamhb123/food-vibes-plus" image={require('url:./images/projects/foodvibes.png')}>
-						Food vibes takes an audio file and gives you food recommendations based on your 'vibes'/song. 
+						Food vibes takes an audio file and gives you food recommendations based on your 'vibes'/song.
 					</ProjectCard>
 					<ProjectCard title="Smal.me" href="https://github.com/adamhb123/Smal.me" image={require('url:./images/projects/smalme.png')}>
 						A simple link shortener, my first foray into PHP.
@@ -144,7 +146,7 @@ class Blog extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {posts: []};
-		fetch(`${SITE_NAME}:6969/api/get-blog-posts`, {mode: 'cors'}).then(res => {
+		fetch(`${SITE_NAME}:${BACKMAN_PORT}/api/get-blog-posts`, {mode: 'cors'}).then(res => {
 			res.json().then(
 				data => this.setState({
 					posts: data.posts
@@ -155,7 +157,7 @@ class Blog extends React.Component {
 	render() {
 		// Format posts
 		let posts = [];
-		let postCount = (this.props.maxPosts && 0 < this.props.maxPosts && this.props.maxPosts < this.state.posts.length) 
+		let postCount = (this.props.maxPosts && 0 < this.props.maxPosts && this.props.maxPosts < this.state.posts.length)
 							? this.props.maxPosts : this.state.posts.length
 		for(let i = 0; i < postCount; i++){
 			let post = this.state.posts[i];

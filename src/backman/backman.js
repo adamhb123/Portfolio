@@ -1,3 +1,4 @@
+const fs = require('fs');
 const crypto = require('crypto');
 const exec = require('child_process').exec;
 const express = require('express');
@@ -6,13 +7,13 @@ const https = require('https');
 const sqlite3 = require("sqlite3").verbose();
 const app = express();
 require('dotenv').config({ path: "../../.env" });
-const port = process.env.BACKMAN_PORT ? process.env.BACKMAN_PORT : 6969;
+const port = process.env.REACT_APP_BACKMAN_PORT ? process.env.REACT_APP_BACKMAN_PORT : 6969;
 
-app.use(cors());
+app.use(cors({origin: true}));
 app.use(function(req, res, next) {
     req.rawBody = '';
     req.setEncoding('utf8');
-    req.on('data', function(chunk) { 
+    req.on('data', function(chunk) {
         req.rawBody += chunk;
     });
     req.on('end', function() {
@@ -20,13 +21,13 @@ app.use(function(req, res, next) {
     });
 });
 
-function _check_err(err){
+function _check_err(err) {
     if(err){
         console.error(err.message);
     }
 }
 
-function get_blog_posts(){
+function get_blog_posts() {
     return new Promise((resolve, reject) => {
 	let dbName = __dirname + '/db/blog.db';
 	console.log("DB Name: " + dbName);
@@ -36,10 +37,10 @@ function get_blog_posts(){
             resolve(rows);
         });
         db.close(_check_err);
-    })
+    });
 }
 
-function verify_webhook_signature(req, res, next){
+function verify_webhook_signature(req, res, next) {
     if (!req.rawBody){
         return next('Request body empty');
     }
@@ -56,7 +57,7 @@ function verify_webhook_signature(req, res, next){
     return next();
 }
 
-function pull_latest_repo_updates(){
+function pull_latest_repo_updates() {
     exec("git pull && shutdown -r now");
 }
 
@@ -64,29 +65,28 @@ app.get('/api/get-blog-posts', (req, res) => {
     get_blog_posts().then((posts)=>res.json({posts: posts}));
 });
 
-if(process.env.PUSHUP_SECRET){
+if(process.env.PUSHUP_SECRET) {
     app.post('/api/pushup', verify_webhook_signature, () => {
         pull_latest_repo_updates();
     });
-      
     app.use((err, req, res, next) => {
         if (err) console.error(err);
         res.status(403).send('Request body was not signed or verification failed');
-    })
+    });
 }
-if(process.env.NODE_ENV == "production"){
+
+if(process.env.NODE_ENV == "production") {
     https.createServer(
     {
-	key: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/privkey.pem'),
-	cert: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/cert.pem'),
-	ca: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/chain.pem')
-    },
-    app).listen(port, () => {
+        key: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/cert.pem'),
+        ca: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/chain.pem')
+    }, app).listen(port, () => {
         console.log(`Backman on port ${port}`);
     });
 }
 else {
     app.listen(port, () => {
         console.log(`Backman on port ${port}`);
-    });   
+    });
 }
