@@ -1,4 +1,3 @@
-const fs = require('fs');
 const crypto = require('crypto');
 const exec = require('child_process').exec;
 const express = require('express');
@@ -10,15 +9,12 @@ require('dotenv').config({ path: "../../.env" });
 const port = process.env.BACKMAN_PORT ? process.env.BACKMAN_PORT : 6969;
 
 app.use(cors());
-app.use(express.static(__dirname + "/static", {dotfiles: 'allow'}));
 app.use(function(req, res, next) {
     req.rawBody = '';
     req.setEncoding('utf8');
-  
     req.on('data', function(chunk) { 
         req.rawBody += chunk;
     });
-  
     req.on('end', function() {
         next();
     });
@@ -41,7 +37,6 @@ function get_blog_posts(){
         });
         db.close(_check_err);
     })
-    
 }
 
 function verify_webhook_signature(req, res, next){
@@ -62,13 +57,12 @@ function verify_webhook_signature(req, res, next){
 }
 
 function pull_latest_repo_updates(){
-    exec("git pull && shutdown -r now", {detached: true});
+    exec("git pull && shutdown -r now");
 }
 
 app.get('/api/get-blog-posts', (req, res) => {
     get_blog_posts().then((posts)=>res.json({posts: posts}));
 });
-
 
 if(process.env.PUSHUP_SECRET){
     app.post('/api/pushup', verify_webhook_signature, () => {
@@ -92,12 +86,7 @@ if(process.env.NODE_ENV == "production"){
     });
 }
 else {
-    https.createServer(
-    {
-	key: fs.readFileSync(`${__dirname}/devkey.key`),
-	cert: fs.readFileSync(`${__dirname}/devcert.cert`)
-    },
-    app).listen(port, () => {
+    app.listen(port, () => {
         console.log(`Backman on port ${port}`);
     });   
 }

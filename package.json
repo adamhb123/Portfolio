@@ -2,11 +2,10 @@
   "name": "portfolio",
   "version": "0.1.0",
   "description": "",
-  "proxy": "http://localhost:6969",
   "scripts": {
     "start": "npm run develop",
     "backend": "node ./src/backman/backman.js",
-    "develop": "cross-env NODE_ENV=development npm run backend & parcel index.html --https",
+    "develop": "cross-env NODE_ENV=development npm run backend & parcel index.html",
     "prod": "cross-env NODE_ENV=production npm run backend & parcel index.html --https --cert /etc/letsencrypt/live/adabrew.com/fullchain.pem --key /etc/letsencrypt/live/adabrew.com/privkey.pem --port 443",
     "build": "parcel build index.html"
   },
