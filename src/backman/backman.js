@@ -1,6 +1,6 @@
 const fs = require('fs');
 const crypto = require('crypto');
-const exec = require('child_process').exec;
+const spawn = require('child_process').spawn;
 const express = require('express');
 const cors = require('cors');
 const https = require('https');
@@ -60,7 +60,6 @@ function verify_webhook_signature(req, res, next) {
 function pull_latest_repo_updates() {
     spawn(`${__dirname}/gitpusher.sh`);
 }
-
 
 app.get('/api/get-blog-posts', (req, res) => {
     get_blog_posts().then((posts)=>res.json({posts: posts}));
