@@ -8,8 +8,6 @@ import './App.scss';
 const EXPLOSION_ANIMATION_SIZE = 50;
 const SITE_NAME = process.env.NODE_ENV == "production" ? "https://adabrew.com" : "http://localhost"
 const BACKMAN_PORT = process.env.REACT_APP_BACKMAN_PORT;
-console.log("SITE_NAME: " + SITE_NAME);
-console.log("BACKMAN_PORT: " + BACKMAN_PORT);
 const PageHeader = (props) => <h1 className="page-descriptor-header">{props.children}</h1>
 
 function TopNav(props) {
