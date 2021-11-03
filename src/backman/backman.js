@@ -58,7 +58,7 @@ function verify_webhook_signature(req, res, next) {
 }
 
 function pull_latest_repo_updates() {
-    spawn(`${__dirname}/gitpusher.sh`);
+    spawn(`${__dirname}/gitpuller.sh`);
 }
 
 app.get('/api/get-blog-posts', (req, res) => {
