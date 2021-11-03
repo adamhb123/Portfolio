@@ -7,8 +7,7 @@
     "backend": "NODE_ENV=production node ./src/backman/backman.js",
     "develop": "NODE_ENV=development npm run backend & parcel index.html",
     "prod": "NODE_ENV=production npm run backend & npm run build",
-    "build": "parcel build index.html --dist-dir dist --public-url ./",
-    "prebuild": "rm -rf /var/www/html/*"
+    "build": "parcel build index.html --dist-dir dist --public-url ./" 
   },
   "license": "MIT",
   "dependencies": {
