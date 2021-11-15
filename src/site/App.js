@@ -80,6 +80,46 @@ BlogParagraph.propTypes = {
     children: PropTypes.node
 };
 
+class Blog extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {posts: []};
+        fetch(`${SITE_NAME}:${BACKMAN_PORT}/api/get-blog-posts`, {mode: "cors"}).then(res => {
+            res.json().then(
+                data => this.setState({
+                    posts: data.posts
+                })
+            );
+        });
+    }
+    render() {
+        // Format posts
+        let posts = [];
+        let postCount = (this.props.maxPosts && 0 < this.props.maxPosts && this.props.maxPosts < this.state.posts.length)
+            ? this.props.maxPosts : this.state.posts.length;
+        for(let i = 0; i < postCount; i++){
+            let post = this.state.posts[i];
+            let bodyTextSplit = post.text.split("\n");
+            let bodyTextNodes = [];
+            for(let j = 0; j < bodyTextSplit.length; j++){
+                bodyTextNodes.push(<BlogParagraph key={j}>{bodyTextSplit[j]}</BlogParagraph>);
+            }
+            posts.push(<BlogPost number={i+1} title={post.title} date={post.date} key={i}>{bodyTextNodes}</BlogPost>);
+        }
+        let navbar = this.props.hideNavbar ? null : <TopNav selected="Blog"/>;
+        return (
+            <>
+                {navbar}
+                <PageHeader>{postCount != this.state.posts.length ? `${postCount != 1 ? `${postCount} Most Recent Blog Posts` : "Most Recent Blog Post"}` : "Blog Posts"}</PageHeader>
+                {posts}
+            </>
+        );
+    }
+}
+Blog.propTypes = {
+    maxPosts: PropTypes.number,
+    hideNavbar: PropTypes.bool
+};
 
 function ProjectCard(props) {
     return (
@@ -120,48 +160,6 @@ function ExplosionOnClick(event) {
     document.body.appendChild(img);
 }
 window.addEventListener("click", ExplosionOnClick);
-
-/* PAGES */
-class Blog extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {posts: []};
-        fetch(`${SITE_NAME}:${BACKMAN_PORT}/api/get-blog-posts`, {mode: "cors"}).then(res => {
-            res.json().then(
-                data => this.setState({
-                    posts: data.posts
-                })
-            );
-        });
-    }
-    render() {
-        // Format posts
-        let posts = [];
-        let postCount = (this.props.maxPosts && 0 < this.props.maxPosts && this.props.maxPosts < this.state.posts.length)
-            ? this.props.maxPosts : this.state.posts.length;
-        for(let i = 0; i < postCount; i++){
-            let post = this.state.posts[i];
-            let bodyTextSplit = post.text.split("\n");
-            let bodyTextNodes = [];
-            for(let j = 0; j < bodyTextSplit.length; j++){
-                bodyTextNodes.push(<BlogParagraph key={j}>{bodyTextSplit[j]}</BlogParagraph>);
-            }
-            posts.push(<BlogPost number={post.key} title={post.title} date={post.date} key={i}>{bodyTextNodes}</BlogPost>);
-        }
-        let navbar = this.props.hideNavbar ? null : <TopNav selected="Blog"/>;
-        return (
-            <>
-                {navbar}
-                <PageHeader>{postCount != this.state.posts.length ? `${postCount != 1 ? `${postCount} Most Recent Blog Posts` : "Most Recent Blog Post"}` : "Blog Posts"}</PageHeader>
-                {posts}
-            </>
-        );
-    }
-}
-Blog.propTypes = {
-    maxPosts: PropTypes.number,
-    hideNavbar: PropTypes.bool
-};
 
 function Home() {
     return (
