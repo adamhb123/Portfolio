@@ -1,22 +1,22 @@
-const fs = require('fs');
-const crypto = require('crypto');
-const spawn = require('child_process').spawn;
-const express = require('express');
-const cors = require('cors');
-const https = require('https');
+const fs = require("fs");
+const crypto = require("crypto");
+const spawn = require("child_process").spawn;
+const express = require("express");
+const cors = require("cors");
+const https = require("https");
 const sqlite3 = require("sqlite3").verbose();
 const app = express();
-require('dotenv').config({ path: "../../.env" });
+require("dotenv").config({ path: "../../.env" });
 const port = process.env.REACT_APP_BACKMAN_PORT ? process.env.REACT_APP_BACKMAN_PORT : 6969;
 
 app.use(cors({origin: true}));
 app.use(function(req, res, next) {
-    req.rawBody = '';
-    req.setEncoding('utf8');
-    req.on('data', function(chunk) {
+    req.rawBody = "";
+    req.setEncoding("utf8");
+    req.on("data", function(chunk) {
         req.rawBody += chunk;
     });
-    req.on('end', function() {
+    req.on("end", function() {
         next();
     });
 });
@@ -28,11 +28,11 @@ function _check_err(err) {
 }
 
 function get_blog_posts() {
-    return new Promise((resolve, reject) => {
-	let dbName = __dirname + '/db/blog.db';
-	console.log("DB Name: " + dbName);
+    return new Promise((resolve) => {
+        let dbName = __dirname + "/db/blog.db";
+        console.log("DB Name: " + dbName);
         let db = new sqlite3.Database(dbName, sqlite3.OPEN_READONLY, _check_err);
-        db.all('SELECT * FROM posts ORDER BY key DESC', (err, rows) => {
+        db.all("SELECT * FROM posts ORDER BY key DESC", (err, rows) => {
             _check_err(err);
             resolve(rows);
         });
@@ -42,15 +42,15 @@ function get_blog_posts() {
 
 function verify_webhook_signature(req, res, next) {
     if (!req.rawBody){
-        return next('Request body empty');
+        return next("Request body empty");
     }
     console.log("Received pushup");
     const secret = process.env.PUSHUP_SECRET;
-    const sigHeaderName = 'X-Hub-Signature-256';
-    const sigHashAlg = 'sha256';
-    const sig = Buffer.from(req.get(sigHeaderName) || '', 'utf8');
+    const sigHeaderName = "X-Hub-Signature-256";
+    const sigHashAlg = "sha256";
+    const sig = Buffer.from(req.get(sigHeaderName) || "", "utf8");
     const hmac = crypto.createHmac(sigHashAlg, secret);
-    const digest = Buffer.from(sigHashAlg + '=' + hmac.update(req.rawBody).digest('hex'), 'utf8');
+    const digest = Buffer.from(sigHashAlg + "=" + hmac.update(req.rawBody).digest("hex"), "utf8");
     if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
         return next(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
     }
@@ -61,27 +61,27 @@ function pull_latest_repo_updates() {
     spawn(`${__dirname}/gitpuller.sh`);
 }
 
-app.get('/api/get-blog-posts', (req, res) => {
+app.get("/api/get-blog-posts", (req, res) => {
     get_blog_posts().then((posts)=>res.json({posts: posts}));
 });
 
 if(process.env.PUSHUP_SECRET) {
-    app.post('/api/pushup', verify_webhook_signature, () => {
+    app.post("/api/pushup", verify_webhook_signature, () => {
         pull_latest_repo_updates();
     });
-    app.use((err, req, res, next) => {
+    app.use((err, req, res) => {
         if (err) console.error(err);
-        res.status(403).send('Request body was not signed or verification failed');
+        res.status(403).send("Request body was not signed or verification failed");
     });
 }
 
 if(process.env.NODE_ENV == "production") {
     https.createServer(
-    {
-        key: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/cert.pem'),
-        ca: fs.readFileSync('/etc/letsencrypt/live/adabrew.com/chain.pem')
-    }, app).listen(port, () => {
+        {
+            key: fs.readFileSync("/etc/letsencrypt/live/adabrew.com/privkey.pem"),
+            cert: fs.readFileSync("/etc/letsencrypt/live/adabrew.com/cert.pem"),
+            ca: fs.readFileSync("/etc/letsencrypt/live/adabrew.com/chain.pem")
+        }, app).listen(port, () => {
         console.log(`Backman on port ${port}`);
     });
 }
