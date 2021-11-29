@@ -12,7 +12,7 @@ body {
     background-color: $oxford-blue;
     background-image: radial-gradient(circle at 1px 1px, $royal-purple 1px, transparent 0);
     background-size: 20px 20px;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 #root {
