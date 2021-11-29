@@ -17,7 +17,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dis
 
 const EXPLOSION_ANIMATION_SIZE = 50;
 const SITE_NAME = process.env.NODE_ENV == "production" ? "https://adabrew.com" : "http://localhost";
-const BACKMAN_PORT = process.env.REACT_APP_BACKMAN_PORT;
+const BACKMAN_PORT = process.env.REACT_APP_BACKMAN_PORT ? process.env.REACT_APP_BACKMAN_PORT : 6969;
 const PageHeader = (props) => <h1 className="page-descriptor-header">{props.children}</h1>;
 PageHeader.propTypes = {
     children: PropTypes.node

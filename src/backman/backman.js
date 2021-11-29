@@ -57,17 +57,13 @@ function verify_webhook_signature(req, res, next) {
     return next();
 }
 
-function pull_latest_repo_updates() {
-    spawn(`${__dirname}/gitpuller.sh`);
-}
-
 app.get("/api/get-blog-posts", (req, res) => {
     get_blog_posts().then((posts)=>res.json({posts: posts}));
 });
 
 if(process.env.PUSHUP_SECRET) {
     app.post("/api/pushup", verify_webhook_signature, () => {
-        pull_latest_repo_updates();
+        console.log("Git push received, update when possible!");
     });
     app.use((err, req, res) => {
         if (err) console.error(err);
@@ -82,11 +78,11 @@ if(process.env.NODE_ENV == "production") {
             cert: fs.readFileSync("/etc/letsencrypt/live/adabrew.com/cert.pem"),
             ca: fs.readFileSync("/etc/letsencrypt/live/adabrew.com/chain.pem")
         }, app).listen(port, () => {
-        console.log(`Backman on port ${port}`);
+        console.log(`(HTTPS) Backman on port ${port}`);
     });
 }
 else {
     app.listen(port, () => {
-        console.log(`Backman on port ${port}`);
+        console.log(`(HTTP) Backman on port ${port}`);
     });
 }
