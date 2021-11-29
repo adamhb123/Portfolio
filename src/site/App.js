@@ -2,9 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
 import {Nav, Navbar, Container, Card} from "react-bootstrap";
-
+import { Viewer } from "@react-pdf-viewer/core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
+
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout"
+
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
+import * as pdfjsLib from 'pdfjs-dist';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.6.347/build/pdf.worker.js';
 
 const EXPLOSION_ANIMATION_SIZE = 50;
 const SITE_NAME = process.env.NODE_ENV == "production" ? "https://adabrew.com" : "http://localhost";
@@ -25,6 +34,7 @@ function TopNav(props) {
                 <Nav className="ms-auto">
                     <Nav.Link className={props.selected == "Home" ? "selected" : ""} href="/">Home</Nav.Link>
                     <Nav.Link className={props.selected == "Projects" ? "selected" : ""} href="/projects">Projects</Nav.Link>
+                    <Nav.Link className={props.selected == "Resume" ? "selected" : ""} href="/resume">Resume</Nav.Link>
                     <Nav.Link className={props.selected == "Blog" ? "selected" : ""} href="/blog">Blog</Nav.Link>
                 </Nav>
             </Container>
@@ -38,6 +48,7 @@ function TopNav(props) {
                         <Nav className="mr-auto">
                             <Nav.Link className={props.selected == "Home" ? "selected" : ""} href="/">Home</Nav.Link>
                             <Nav.Link className={props.selected == "Projects" ? "selected" : ""} href="/projects">Projects</Nav.Link>
+                            <Nav.Link className={props.selected == "Resume" ? "selected" : ""} href="/resume">Resume</Nav.Link>
                             <Nav.Link className={props.selected == "Blog" ? "selected" : ""} href="/blog">Blog</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
@@ -165,6 +176,12 @@ function Home() {
     return (
         <>
             <TopNav selected="Home"/>
+            <div id="home-about">
+                <h1>Hello!</h1>
+                <p>I'm Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
+                    of Technology.
+                </p>
+            </div>
             <Blog hideNavbar maxPosts={1}/>
         </>
     );
@@ -174,7 +191,7 @@ function Projects() {
     return (
         <>
             <TopNav selected="Projects"/>
-            <PageHeader>My Projects</PageHeader>
+            <PageHeader>Projects</PageHeader>
             <Container id="project-card-grid-container">
                 <div id="project-card-grid">
                     {/* All ProjectCard images should have a square aspect ratio for best quality (they are all resized to square AR)*/}
@@ -203,12 +220,27 @@ function Projects() {
     );
 }
 
+function Resume(){
+    const defaultLayoutPluginInstance = defaultLayoutPlugin();
+    const resume = require("url:./images/resume.pdf");
+    return(
+        <>
+            <TopNav selected="Resume"/>
+            <PageHeader>Resume</PageHeader>
+            <div id="resume-container">
+                <Viewer fileUrl={resume} plugins={[defaultLayoutPluginInstance]} />
+            </div>
+        </>
+    );
+}
+
 // eslint-disable-next-line react/display-name
 export default () => (
     <BrowserRouter>
         <Switch>
             <Route path="/projects" component={Projects}/>
             <Route path="/blog" component={Blog}/>
+            <Route path="/resume" component={Resume}/>
             <Route exact path="/" component={Home}/>
             <Route path="/*">
                 <Redirect to="/"/>

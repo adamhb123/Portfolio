@@ -157,6 +157,11 @@ body {
     text-align: center;
 }
 
+#resume-container {
+    margin: auto;
+    width: 80%;
+}
+
 @media(max-width:567px){
     #project-card-grid {
         grid-template-columns: repeat(1, 1fr);
