@@ -12,7 +12,7 @@ body {
     background-color: $oxford-blue;
     background-image: radial-gradient(circle at 1px 1px, $royal-purple 1px, transparent 0);
     background-size: 20px 20px;
-    overflow: none;
+    overflow: hidden;
 }
 
 #root {
@@ -159,7 +159,7 @@ body {
 
 #resume-container {
     margin: auto;
-    width: 80%;
+    width: 60%;
 }
 
 @media(max-width:567px){
