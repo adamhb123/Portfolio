@@ -26,7 +26,9 @@ PageHeader.propTypes = {
     children: PropTypes.node
 };
 
-/* General || Utility */
+  /**********************/
+ /* General || Utility */
+/**********************/
 function ExplosionOnClick(event) {
     let previousExplosions = document.getElementsByClassName("explosion-animation");
     for(let i = 0; i < previousExplosions.length; i++){
@@ -167,9 +169,9 @@ Blog.propTypes = {
     hideNavbar: PropTypes.bool
 };
 
-   /****************/
-  /* Project Page */
- /****************/
+  /****************/
+ /* Project Page */
+/****************/
 function ProjectCard(props) {
     return (
         <Card className={props.highlight !== undefined ? "highlight" : "default"}>
