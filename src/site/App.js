@@ -177,10 +177,13 @@ function Home() {
         <>
             <TopNav selected="Home"/>
             <div id="home-about">
-                <h1>Hello!</h1>
-                <p>I'm Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
-                    of Technology.
-                </p>
+                <img src={require("url:./images/homephoto.jpg")}/>
+                <div id="text-container">
+                    <h1>Hello!</h1>
+                    <p>I'm Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
+                        of Technology.
+                    </p>
+                </div>
             </div>
             <Blog hideNavbar maxPosts={1}/>
         </>
