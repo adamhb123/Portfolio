@@ -15,6 +15,9 @@ import * as pdfjsLib from 'pdfjs-dist';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.6.347/build/pdf.worker.js';
 
+  /*************/
+ /* CONSTANTS */
+/*************/
 const EXPLOSION_ANIMATION_SIZE = 50;
 const SITE_NAME = process.env.NODE_ENV == "production" ? "https://adabrew.com" : "http://localhost";
 const BACKMAN_PORT = process.env.REACT_APP_BACKMAN_PORT ? process.env.REACT_APP_BACKMAN_PORT : 6969;
@@ -23,33 +26,62 @@ PageHeader.propTypes = {
     children: PropTypes.node
 };
 
+/* General || Utility */
+function ExplosionOnClick(event) {
+    let previousExplosions = document.getElementsByClassName("explosion-animation");
+    for(let i = 0; i < previousExplosions.length; i++){
+        previousExplosions[i].remove();
+    }
+    let img = document.createElement("img");
+    img.src = require("url:./images/explosion.gif");
+    img.style.width = EXPLOSION_ANIMATION_SIZE.toString() + "px";
+    img.style.height = EXPLOSION_ANIMATION_SIZE.toString() + "px";
+    let x = event.clientX - EXPLOSION_ANIMATION_SIZE/2;
+    let y = event.clientY + window.scrollY - EXPLOSION_ANIMATION_SIZE/2;
+    img.style.position = "absolute";
+    img.style.left = x.toString() + "px";
+    img.style.top = y.toString() + "px";
+    img.className = "explosion-animation";
+    document.body.appendChild(img);
+}
+window.addEventListener("click", ExplosionOnClick);
+
+// Nav
+const TopNavLinks = (props) => {
+    <>
+        <Nav.Link className={props.selected == "Home" ? "selected" : ""} href="/">Home</Nav.Link>
+        <Nav.Link className={props.selected == "Projects" ? "selected" : ""} href="/projects">Projects</Nav.Link>
+        <Nav.Link className={props.selected == "Resume" ? "selected" : ""} href="/resume">Resume</Nav.Link>
+        <Nav.Link className={props.selected == "Blog" ? "selected" : ""} href="/blog">Blog</Nav.Link>
+    </>
+};
+TopNavLinks.propTypes = {
+    selected: PropTypes.string 
+};
+
+const TopNavBrand = (
+    <Nav>
+        <Navbar.Brand href="/">Adam Brewer</Navbar.Brand>
+    </Nav>
+);
+
 function TopNav(props) {
     return (
         <Navbar className="navbar" bg="dark" variant="dark">
             <img id="mario-animation" src={require("url:./images/mario.gif")} draggable="false"></img>
             <Container id="nav-container-desktop">
-                <Nav>
-                    <Navbar.Brand href="/">Adam Brewer</Navbar.Brand>
-                </Nav>
+                <TopNavBrand/>
                 <Nav className="ms-auto">
-                    <Nav.Link className={props.selected == "Home" ? "selected" : ""} href="/">Home</Nav.Link>
-                    <Nav.Link className={props.selected == "Projects" ? "selected" : ""} href="/projects">Projects</Nav.Link>
-                    <Nav.Link className={props.selected == "Resume" ? "selected" : ""} href="/resume">Resume</Nav.Link>
-                    <Nav.Link className={props.selected == "Blog" ? "selected" : ""} href="/blog">Blog</Nav.Link>
+                    <TopNavLinks selected={props.selected}/>
                 </Nav>
             </Container>
             <Container id="nav-container-mobile">
-                <Nav>
-                    <Navbar.Brand href="/">Adam Brewer</Navbar.Brand>
-                </Nav>
+                <TopNavBrand/>
                 <Nav>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link className={props.selected == "Home" ? "selected" : ""} href="/">Home</Nav.Link>
-                            <Nav.Link className={props.selected == "Projects" ? "selected" : ""} href="/projects">Projects</Nav.Link>
-                            <Nav.Link className={props.selected == "Resume" ? "selected" : ""} href="/resume">Resume</Nav.Link>
-                            <Nav.Link className={props.selected == "Blog" ? "selected" : ""} href="/blog">Blog</Nav.Link>
+                            <TopNavLinks selected={props.selected}/>
                         </Nav>
                     </Navbar.Collapse>
                 </Nav>
@@ -61,6 +93,9 @@ TopNav.propTypes = {
     selected: PropTypes.string
 };
 
+   /*************/
+  /* Blog Page */
+ /*************/
 function BlogPost(props){
     return (
         <Container className="blog-post" id={props.title}>
@@ -132,6 +167,9 @@ Blog.propTypes = {
     hideNavbar: PropTypes.bool
 };
 
+   /****************/
+  /* Project Page */
+ /****************/
 function ProjectCard(props) {
     return (
         <Card className={props.highlight !== undefined ? "highlight" : "default"}>
@@ -152,43 +190,6 @@ ProjectCard.propTypes = {
     title: PropTypes.string,
     children: PropTypes.node
 };
-
-function ExplosionOnClick(event) {
-    let previousExplosions = document.getElementsByClassName("explosion-animation");
-    for(let i = 0; i < previousExplosions.length; i++){
-        previousExplosions[i].remove();
-    }
-    let img = document.createElement("img");
-    img.src = require("url:./images/explosion.gif");
-    img.style.width = EXPLOSION_ANIMATION_SIZE.toString() + "px";
-    img.style.height = EXPLOSION_ANIMATION_SIZE.toString() + "px";
-    let x = event.clientX - EXPLOSION_ANIMATION_SIZE/2;
-    let y = event.clientY + window.scrollY - EXPLOSION_ANIMATION_SIZE/2;
-    img.style.position = "absolute";
-    img.style.left = x.toString() + "px";
-    img.style.top = y.toString() + "px";
-    img.className = "explosion-animation";
-    document.body.appendChild(img);
-}
-window.addEventListener("click", ExplosionOnClick);
-
-function Home() {
-    return (
-        <>
-            <TopNav selected="Home"/>
-            <div id="home-about">
-                <img src={require("url:./images/homephoto.jpg")}/>
-                <div id="text-container">
-                    <h1>Hello!</h1>
-                    <p>I'm Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
-                        of Technology.
-                    </p>
-                </div>
-            </div>
-            <Blog hideNavbar maxPosts={1}/>
-        </>
-    );
-}
 
 function Projects() {
     return (
@@ -223,6 +224,30 @@ function Projects() {
     );
 }
 
+  /*************/
+ /* Home Page */
+/*************/
+function Home() {
+    return (
+        <>
+            <TopNav selected="Home"/>
+            <div id="home-about">
+                <img src={require("url:./images/homephoto.jpg")}/>
+                <div id="text-container">
+                    <h1>Hello!</h1>
+                    <p>I'm Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
+                        of Technology.
+                    </p>
+                </div>
+            </div>
+            <Blog hideNavbar maxPosts={1}/>
+        </>
+    );
+}
+
+  /***************/
+ /* Resume Page */
+/***************/
 function Resume(){
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const resume = require("url:./images/resume.pdf");
@@ -237,6 +262,9 @@ function Resume(){
     );
 }
 
+  /******************************/
+ /* Export for use in index.js */
+/******************************/
 // eslint-disable-next-line react/display-name
 export default () => (
     <BrowserRouter>
