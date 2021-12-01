@@ -1,6 +1,6 @@
 /* Color palette: https://coolors.co/f9f6ee-ffedc2-030027-8c1848-77508b-b51f5e-15b097 */
-  /*************/
- /* CONSTANTS */
+/*************/
+/* CONSTANTS */
 /*************/
  $bone-white: #F9F6EE;
 $banana-mania: #FFEDC2;
@@ -9,8 +9,8 @@ $claret: #8C1848;
 $royal-purple: #77508b;
 $maroonx11: #B51F5E;
 
-  /**********************/
- /* General || Utility */
+/**********************/
+/* General || Utility */
 /**********************/
 .page-descriptor-header {
     margin: 25px 0px 35px 0px;
@@ -58,22 +58,39 @@ body {
     background-color: $maroonx11 !important;
 }
 
-  /*************/
- /* Home Page */
+/*************/
+/* Home Page */
 /*************/
 #home-about {
-    width: 80%;
+    align-items: center;
+    display: flex;
+    width: 40%;
+    margin: auto;
 }
-#home-about > #text-container {
-    float: left;
+#text-container {
+    margin-right: auto;
     color: $bone-white;
 }
-#home-about > img {
-    float: right;
+#text-container > .blog-post {
+    padding: 10px 25px 30px 25px;
+    width: 100%;
+}
+#home-photo {
+    margin: auto;
+    background-color: rgba(110, 255, 129, 0.5);
+    -moz-border-radius:100%;
+    -webkit-border-radius: 100%;
+    border-radius:100%; 
+    border: 4px solid $oxford-blue;
+    width: 25%;
+}
+#home-text {
+    float:right;
+    width: 75%;
 }
 
-  /****************/
- /* Project Page */
+/****************/
+/* Project Page */
 /****************/
 #project-card-grid-container {
     display: flex;
@@ -121,16 +138,16 @@ body {
     top: 2px;
 }
 
-  /***************/
- /* Resume Page */
+/***************/
+/* Resume Page */
 /***************/
 #resume-container {
     margin: auto;
     width: 60%;
 }
 
-  /*************/
- /* Blog Page */
+/*************/
+/* Blog Page */
 /************/
 .blog-post {
     background-color: $claret;
@@ -166,8 +183,8 @@ body {
     color: $bone-white;
 }
 
-  /***********************************/
- /* Adjustments for smaller devices */
+/***********************************/
+/* Adjustments for smaller devices */
 /***********************************/
   @media(max-width:567px){
     #project-card-grid {

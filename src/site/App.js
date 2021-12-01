@@ -15,8 +15,8 @@ import * as pdfjsLib from 'pdfjs-dist';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.6.347/build/pdf.worker.js';
 
-  /*************/
- /* CONSTANTS */
+/*************/
+/* CONSTANTS */
 /*************/
 const EXPLOSION_ANIMATION_SIZE = 50;
 const SITE_NAME = process.env.NODE_ENV == "production" ? "https://adabrew.com" : "http://localhost";
@@ -26,8 +26,8 @@ PageHeader.propTypes = {
     children: PropTypes.node
 };
 
-  /**********************/
- /* General || Utility */
+/**********************/
+/* General || Utility */
 /**********************/
 function ExplosionOnClick(event) {
     let previousExplosions = document.getElementsByClassName("explosion-animation");
@@ -50,22 +50,19 @@ window.addEventListener("click", ExplosionOnClick);
 
 // Nav
 const TopNavLinks = (props) => {
+    return (
     <>
         <Nav.Link className={props.selected == "Home" ? "selected" : ""} href="/">Home</Nav.Link>
         <Nav.Link className={props.selected == "Projects" ? "selected" : ""} href="/projects">Projects</Nav.Link>
         <Nav.Link className={props.selected == "Resume" ? "selected" : ""} href="/resume">Resume</Nav.Link>
         <Nav.Link className={props.selected == "Blog" ? "selected" : ""} href="/blog">Blog</Nav.Link>
-    </>
+    </>);
 };
 TopNavLinks.propTypes = {
     selected: PropTypes.string 
 };
 
-const TopNavBrand = (
-    <Nav>
-        <Navbar.Brand href="/">Adam Brewer</Navbar.Brand>
-    </Nav>
-);
+const TopNavBrand = () => <Nav><Navbar.Brand href="/">Adam Brewer</Navbar.Brand></Nav>;
 
 function TopNav(props) {
     return (
@@ -95,14 +92,14 @@ TopNav.propTypes = {
     selected: PropTypes.string
 };
 
-   /*************/
-  /* Blog Page */
- /*************/
+/*************/
+/* Blog Page */
+/*************/
 function BlogPost(props){
     return (
-        <Container className="blog-post" id={props.title}>
+        <Container className="blog-post">
             <div className="header">
-                <h2>Post #{props.number}: {props.title}</h2>
+                <h2>{("Post #" + props.number + ": ") ? props.number !== undefined : ""}{props.title}</h2>
             </div>
             <hr/>
             <h3 className="date">{props.date}</h3>
@@ -169,8 +166,8 @@ Blog.propTypes = {
     hideNavbar: PropTypes.bool
 };
 
-  /****************/
- /* Project Page */
+/****************/
+/* Project Page */
 /****************/
 function ProjectCard(props) {
     return (
@@ -226,20 +223,26 @@ function Projects() {
     );
 }
 
-  /*************/
- /* Home Page */
+/*************/
+/* Home Page */
 /*************/
 function Home() {
     return (
         <>
             <TopNav selected="Home"/>
             <div id="home-about">
-                <img src={require("url:./images/homephoto.jpg")}/>
                 <div id="text-container">
-                    <h1>Hello!</h1>
-                    <p>I'm Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
-                        of Technology.
-                    </p>
+                    <BlogPost title="Welcome!">
+                    <img id="home-photo" src={require("url:./images/homephoto.jpg")}/>
+                        <p id="home-text">
+                            I&apos;m Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
+                            of Technology. Programming has been my foremost passion since the age of eleven, and it has always been my dream to
+                            work on products that will benefit others.
+                            
+                            This website was made from scratch in ReactJS, and Parcel as a build tool. Blog posts are hosted on an ExpressJS-powered
+                            backend server, accessible through GET calls to the minimal API. More details are available...in the blog posts section!
+                        </p>
+                    </BlogPost>
                 </div>
             </div>
             <Blog hideNavbar maxPosts={1}/>
@@ -247,8 +250,8 @@ function Home() {
     );
 }
 
-  /***************/
- /* Resume Page */
+/***************/
+/* Resume Page */
 /***************/
 function Resume(){
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -264,8 +267,8 @@ function Resume(){
     );
 }
 
-  /******************************/
- /* Export for use in index.js */
+/******************************/
+/* Export for use in index.js */
 /******************************/
 // eslint-disable-next-line react/display-name
 export default () => (
