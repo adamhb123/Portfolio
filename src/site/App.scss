@@ -61,19 +61,20 @@ body {
 /*************/
 /* Home Page */
 /*************/
-#home-about {
+#home-text-container {
     align-items: center;
     display: flex;
-    width: 40%;
     margin: auto;
-}
-#text-container {
     margin-right: auto;
     color: $bone-white;
+    padding: 10px 10px 10px 0px;
 }
-#text-container > .blog-post {
-    padding: 10px 25px 30px 25px;
-    width: 100%;
+#home-text-container > p {
+    font-size: 1.3rem;
+}
+#home-post {
+    padding: 10px 25px 10px 25px !important;
+    width: 100% !important;
 }
 #home-photo {
     margin: auto;

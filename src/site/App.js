@@ -230,22 +230,23 @@ function Home() {
     return (
         <>
             <TopNav selected="Home"/>
-            <div id="home-about">
-                <div id="text-container">
-                    <BlogPost title="Welcome!">
-                    <img id="home-photo" src={require("url:./images/homephoto.jpg")}/>
-                        <p id="home-text">
-                            I&apos;m Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
-                            of Technology. Programming has been my foremost passion since the age of eleven, and it has always been my dream to
-                            work on products that will benefit others.
-                            
-                            This website was made from scratch in ReactJS, and Parcel as a build tool. Blog posts are hosted on an ExpressJS-powered
-                            backend server, accessible through GET calls to the minimal API. More details are available...in the blog posts section!
-                        </p>
-                    </BlogPost>
-                </div>
+            <Container id="home-post" className="blog-post">
+            <div className="header">
+                <h2 id="home-post-header">Hello!</h2>
             </div>
-            <Blog hideNavbar maxPosts={1}/>
+            <hr/>
+            <div id="home-text-container" className="text-body">
+                <img id="home-photo" src={require("url:./images/homephoto.jpg")}/>
+                <p>
+                    I&apos;m Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
+                    of Technology. Programming has been my foremost passion since the age of eleven, and it has always been my dream to
+                    work on products that will benefit others.
+                            
+                    This website was made from scratch in ReactJS, and Parcel as a build tool. Blog posts are hosted on an ExpressJS-powered
+                    backend server, accessible through GET calls to the minimal API. More details are available...in the blog posts section!
+                </p>
+            </div>
+        </Container>
         </>
     );
 }
