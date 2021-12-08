@@ -190,6 +190,9 @@ body {
     #project-card-grid {
         grid-template-columns: repeat(1, 1fr);
     }
+    #home-text-container > p {
+        font-size: 1.1rem;
+    }
 }
 @media (min-width: 568px) and (max-width:767px){
     #project-card-grid {
