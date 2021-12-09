@@ -230,6 +230,7 @@ function Home() {
     return (
         <>
             <TopNav selected="Home"/>
+            <PageHeader>Home</PageHeader>
             <Container id="home-post" className="blog-post">
             <div className="header">
                 <h2 id="home-post-header">Hello!</h2>
@@ -243,7 +244,7 @@ function Home() {
                     work on products that will benefit others.
                             
                     This website was made from scratch in ReactJS, and Parcel as a build tool. Blog posts are hosted on an ExpressJS-powered
-                    backend server, accessible through GET calls to the minimal API. More details are available...on my <a href="/blog">blog page</a>!
+                    backend server, accessible through GET calls to the minimal API. More details are available...on my <a id="home-link" href="/blog">blog page</a>!
                 </p>
             </div>
         </Container>
