@@ -237,7 +237,9 @@ function Home() {
             </div>
             <hr/>
             <div id="home-text-container" className="text-body">
-                <img id="home-photo" src={require("url:./images/homephoto.jpg")}/>
+                <div>
+                    <img id="home-photo" src={require("url:./images/homephoto.jpg")}/>
+                </div>
                 <p>
                     I&apos;m Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
                     of Technology. Programming has been my foremost passion since the age of eleven, and it has always been my dream to
