@@ -245,6 +245,9 @@ body {
     #home-text-container {
         flex-direction: column;
     }
+    #home-photo-container {
+        text-align: center;
+    }
     #home-photo {
         border-radius: 0;
         border: 4px solid $oxford-blue;

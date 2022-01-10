@@ -43,10 +43,19 @@ function ExplosionOnClick(event) {
     img.style.position = "absolute";
     img.style.left = x.toString() + "px";
     img.style.top = y.toString() + "px";
+    // required to play anim on Chrome
+    window.addEventListener("mousedown", ()=>{
+        const img = document.getElementsByClassName("explosion-animation")[0];
+        img.style.display = "none";
+        img.style.display = "block";
+        setTimeout(() => {
+            img.src = img.src;
+        }, 0);
+    })
     img.className = "explosion-animation";
     document.body.appendChild(img);
 }
-window.addEventListener("click", ExplosionOnClick);
+window.addEventListener("mousedown", ExplosionOnClick);
 
 // Nav
 const TopNavLinks = (props) => {
@@ -242,7 +251,7 @@ function Home() {
             </div>
             <hr/>
             <div id="home-text-container" className="text-body">
-                <div>
+                <div id="home-photo-container">
                     <img id="home-photo" src={require("url:./images/homephoto.jpg")} ref={home_photo_ref}/>
                 </div>
                 <p>
