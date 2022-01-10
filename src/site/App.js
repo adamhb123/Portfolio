@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
 import {Nav, Navbar, Container, Card} from "react-bootstrap";
@@ -227,6 +227,11 @@ function Projects() {
 /* Home Page */
 /*************/
 function Home() {
+    const home_photo_ref = useRef(null);
+    useEffect(() => {
+        home_photo_ref.current.addEventListener("mouseover", () => home_photo_ref.current.className = "rotate-animation");
+        home_photo_ref.current.addEventListener("animationend", () => home_photo_ref.current.className = null);
+    });
     return (
         <>
             <TopNav selected="Home"/>
@@ -238,7 +243,7 @@ function Home() {
             <hr/>
             <div id="home-text-container" className="text-body">
                 <div>
-                    <img id="home-photo" src={require("url:./images/homephoto.jpg")}/>
+                    <img id="home-photo" src={require("url:./images/homephoto.jpg")} ref={home_photo_ref}/>
                 </div>
                 <p>
                     I&apos;m Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
