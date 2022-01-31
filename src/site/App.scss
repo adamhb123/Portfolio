@@ -2,8 +2,10 @@
 /*************/
 /* CONSTANTS */
 /*************/
- $bone-white: #F9F6EE;
+$bone-white: #F9F6EE;
 $banana-mania: #FFEDC2;
+$dark-blue: #151B8D;
+$darker-blue: #10156e;
 $oxford-blue: #030027;
 $claret: #8C1848;
 $royal-purple: #77508b;
@@ -76,7 +78,7 @@ body {
     color: $bone-white !important;
 }
 .navbar {
-    background-color: $maroonx11 !important;
+    background-color: $dark-blue !important;
 }
 
 /*************/
@@ -176,7 +178,7 @@ body {
 /* Blog Page */
 /************/
 .blog-post {
-    background-color: $claret;
+    background-color: $dark-blue;
     padding: 20px 35px 15px 35px;
     margin-top: 15px;
     border-radius: 2px;
