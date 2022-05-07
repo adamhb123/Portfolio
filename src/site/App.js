@@ -207,7 +207,7 @@ function Projects() {
             <Container id="project-card-grid-container">
                 <div id="project-card-grid">
                     {/* All ProjectCard images should have a square aspect ratio for best quality (they are all resized to square)*/}
-                    <ProjectCard title="Sentinel Security" href="https://github.com/adamhb123/imagine2022-frontend" image={require("url:./images/projects/sentinelsecurity.jpg")} highlight>
+                    <ProjectCard title="Sentinel Security" href="https://github.com/adamhb123/imagine2022-frontend" image={require("url:./images/projects/sentinelsecurity.png")} highlight>
                         A frontend for CSH's ImagineRIT 2022 project, "Sentinel Security". Written in TypeScript, primarily utilizes React and mapboxGL.
                     </ProjectCard>
                     <ProjectCard title="NuInfoSys" href="https://github.com/adamhb123/nuinfosys" image={require("url:./images/projects/nuinfosys.jpg")} highlight>
