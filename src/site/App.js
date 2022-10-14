@@ -258,12 +258,11 @@ function Home() {
                     <img id="home-photo" src={require("url:./images/homephoto.jpg")} ref={home_photo_ref}/>
                 </div>
                 <p>
-                    I&apos;m Adam Brewer, a Computer Science student and Software Engineer, currently attending the Rochester Institute
-                    of Technology. Programming has been my foremost passion since the age of eleven, and it has always been my dream to
-                    work on products that will benefit others.
+                    I&apos;m Adam Brewer, a Computer Science student and Software Engineer, initially attending RIT, then transferring to SUNY Alfred, where I currently attend.
+                    Programming has been my first and foremost passion since the age of eleven, and it has always been my dream to work on products that will benefit others.
                             
                     This website was made from scratch in ReactJS, and uses Parcel as a build tool. Blog posts are hosted on an ExpressJS-powered
-                    backend server, accessible through GET calls to the minimal API. More details are available...on my <a id="home-link" href="/blog">blog page</a>!
+                    backend server, accessible through GET requests to the minimal API. More details are available on the <a id="home-link" href="/blog">blog page</a>!
                 </p>
             </div>
         </Container>
@@ -282,7 +281,7 @@ function Resume(){
             <TopNav selected="Resume"/>
             <PageHeader>Resume</PageHeader>
             <div id="resume-container">
-                <Viewer fileUrl={resume} plugins={[defaultLayoutPluginInstance]} />
+                <Viewer fileUrl={resume} />
             </div>
         </>
     );

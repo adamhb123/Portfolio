@@ -11,6 +11,11 @@ $claret: #8C1848;
 $royal-purple: #77508b;
 $maroonx11: #B51F5E;
 
+// glass colors
+$highlight-card-glass:#ff007661;
+$blackest-glass: #00000095;
+$black-glass: #00000060;
+
 /**********************/
 /* General || Utility */
 /**********************/
@@ -61,15 +66,18 @@ $maroonx11: #B51F5E;
     pointer-events: none;
     image-rendering: crisp-edges;
 }
+
 body {
     background-color: $oxford-blue;
     background-image: radial-gradient(circle at 1px 1px, $royal-purple 1px, transparent 0);
     background-size: 20px 20px;
     overflow-x: hidden;
 }
+
 #root {
     padding-bottom: 15px;
 }
+
 .fa {
     text-decoration: none;
 }
@@ -78,7 +86,7 @@ body {
     color: $bone-white !important;
 }
 .navbar {
-    background-color: $dark-blue !important;
+    background-color: $blackest-glass !important;
 }
 
 /*************/
@@ -140,12 +148,14 @@ body {
     padding: 10px;
     border-radius: 10px;
     filter: drop-shadow(3px 5px 2px #000000);
-    background-color: $bone-white;
-    color: $oxford-blue;
+    background-color: $black-glass;
+    box-shadow: 0 0 8px #ffffffa3;
+    color: $bone-white;
     width: 96%;
 }
-.card.highlight { // Highlighted card type/variant 
-    background-color: $claret;
+.card.highlight { // Highlighted card variant
+    box-shadow: 0 0 5px 2px #fff97bcf;
+    background-color: $highlight-card-glass;
     color: $banana-mania;
 }
 .card > .thumbnail-container {
@@ -178,7 +188,7 @@ body {
 /* Blog Page */
 /************/
 .blog-post {
-    background-color: $dark-blue;
+    background-color: $black-glass;
     padding: 20px 35px 15px 35px;
     margin-top: 15px;
     border-radius: 2px;
