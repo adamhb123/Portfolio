@@ -23,7 +23,8 @@ app.use(function (req, res, next) {
     });
 });
 
-function pull_git_repo_and_rebuild() {
+function pull_git_repo_and_rebuild(req, res, next) {
+    if(!res.local('webhook_verified')) next("Webhook not verified, skipping update");
     const spawned_proc = spawn(`git stash save; git fetch origin master && git reset --hard FETCH_HEAD && git clean -df && npm run build-prod && service apache2 restart; git stash apply`,
     { cwd: __filename.substring(0, __filename.lastIndexOf('/', __filename.lastIndexOf('/') - 1)), shell: true });
     spawned_proc.stdout.on('data', (data) => console.log(data.toString()));
@@ -31,6 +32,7 @@ function pull_git_repo_and_rebuild() {
     spawned_proc.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
     });
+    next();
 }
 function _check_err(err) {
     if (err) {
@@ -52,6 +54,7 @@ function get_blog_posts() {
 }
 
 function verify_webhook_signature(req, res, next) {
+    res.local('webhook_verified', false);
     const secret = process.env.PUSHUP_SECRET;
     if (!secret) return next("PUSHUP_SECRET not provided, webhook verification disabled")
     if (!req.rawBody) {
@@ -66,6 +69,7 @@ function verify_webhook_signature(req, res, next) {
     if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
         return next(`Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`);
     }
+    res.locals.webhook_verified = true;
     return next();
 }
 
@@ -75,12 +79,9 @@ app.get("/api/get-blog-posts", (req, res) => {
 
 if (process.env.PUSHUP_SECRET || process.env.NODE_ENV != "production") {
     console.log("register pushup")
-    app.post("/api/pushup", verify_webhook_signature, (req, res, next) => {
-        console.log("Git push received, update when possible!");
-        res.status(200).send("Triggering git pull and app restart")
-    });
+    app.post("/api/pushup", verify_webhook_signature, pull_git_repo_and_rebuild);
 }
-pull_git_repo_and_rebuild()
+
 if (process.env.NODE_ENV == "production") {
     https.createServer(
         {
